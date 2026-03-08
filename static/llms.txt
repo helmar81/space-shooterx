@@ -1,0 +1,24 @@
+# Space Shooter
+
+## Overview
+Space Shooter is a 2D HTML5 Canvas web game built with Svelte and SvelteKit. It is available as a Progressive Web App (PWA) with full offline capability.
+
+## Features
+- **Gameplay**: 2D top-down space shooter mechanics with increasing difficulty.
+- **Controls**:
+  - Desktop: keyboard support (WASD or Arrow keys to move, Spacebar to shoot).
+  - Mobile: touch and drag to move, automatic shooting.
+- **Progressive Web App**: The game is cacheable via Service Workers and installable to devices using an included manifest.json.
+- **Performance**: Optimized for zero zoom disruption and minimal latency on devices. Fully styled using Vanilla CSS metrics over a Canvas tag.
+
+## Contact Information
+- Created by: USPEKHI
+- Developer website: https://uspekhi.web.app
+- Contact email: mediatrends64@gmail.com
+- Privacy policy: /privacy-policy.html
+- Sitemap: /sitemap.xml
+
+## System Architecture
+- Frontend: SvelteKit (TypeScript, HTML, CSS)
+- Hosting: Firebase Hosting
+- CI/CD & Deployments: Node/NPM + Firebase tooling
