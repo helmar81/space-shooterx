@@ -10,11 +10,14 @@ return {
 	assets: new Set(["icon-192.png","icon-512.png","llms.txt","manifest.json","privacy-policy.html","robots.txt","sitemap.xml","service-worker.js"]),
 	mimeTypes: {".png":"image/png",".txt":"text/plain",".json":"application/json",".html":"text/html",".xml":"text/xml"},
 	_: {
-		client: {start:"_app/immutable/entry/start.BiFfY1l7.js",app:"_app/immutable/entry/app.7D1beZtI.js",imports:["_app/immutable/entry/start.BiFfY1l7.js","_app/immutable/chunks/Dq0eVpA5.js","_app/immutable/chunks/ireIc5hU.js","_app/immutable/chunks/hCORChy9.js","_app/immutable/entry/app.7D1beZtI.js","_app/immutable/chunks/ireIc5hU.js","_app/immutable/chunks/CaGVVGo7.js","_app/immutable/chunks/Is93vP2K.js","_app/immutable/chunks/hCORChy9.js","_app/immutable/chunks/CkaOX-eC.js","_app/immutable/chunks/DdHyZJ39.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.DvoDFhxn.js",app:"_app/immutable/entry/app.Cg5JYz1y.js",imports:["_app/immutable/entry/start.DvoDFhxn.js","_app/immutable/chunks/DiNc8bV2.js","_app/immutable/chunks/J8JCX3K2.js","_app/immutable/chunks/IATCNhFX.js","_app/immutable/chunks/Cv_abIXu.js","_app/immutable/entry/app.Cg5JYz1y.js","_app/immutable/chunks/J8JCX3K2.js","_app/immutable/chunks/BXpKVlQA.js","_app/immutable/chunks/DGMvmbQY.js","_app/immutable/chunks/Cv_abIXu.js","_app/immutable/chunks/CgLV--FK.js","_app/immutable/chunks/IATCNhFX.js","_app/immutable/chunks/CFjy1B5t.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
-			__memo(() => import('./nodes/2.js'))
+			__memo(() => import('./nodes/2.js')),
+			__memo(() => import('./nodes/3.js')),
+			__memo(() => import('./nodes/4.js')),
+			__memo(() => import('./nodes/5.js'))
 		],
 		remotes: {
 			
@@ -25,6 +28,27 @@ return {
 				pattern: /^\/$/,
 				params: [],
 				page: { layouts: [0,], errors: [1,], leaf: 2 },
+				endpoint: null
+			},
+			{
+				id: "/about",
+				pattern: /^\/about\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 3 },
+				endpoint: null
+			},
+			{
+				id: "/guide",
+				pattern: /^\/guide\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 4 },
+				endpoint: null
+			},
+			{
+				id: "/video",
+				pattern: /^\/video\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 5 },
 				endpoint: null
 			}
 		],

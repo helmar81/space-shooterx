@@ -1,4 +1,4 @@
-import { a1 as ssr_context, h as head, e as escape_html } from "../../chunks/index.js";
+import { ab as ssr_context, h as head, e as escape_html } from "../../chunks/index2.js";
 import "clsx";
 function onDestroy(fn) {
   /** @type {SSRContext} */
@@ -15,7 +15,7 @@ function _page($$renderer, $$props) {
       y: 0,
       w: 40,
       h: 40,
-      speed: 0.35
+      speed: 0.25
       // units per ms (scaled by delta time)
     };
     let bullets = [];
@@ -52,7 +52,7 @@ function _page($$renderer, $$props) {
       bullets.push({
         x: player.x + player.w / 2,
         y: player.y,
-        speed: 0.9,
+        speed: 0.7,
         // units per ms
         radius: 6,
         color: "#00ffff"
@@ -66,14 +66,14 @@ function _page($$renderer, $$props) {
         y: -size,
         w: size,
         h: size,
-        speed: 0.12 + Math.random() * 0.08 + score * 6e-4,
+        speed: 0.08 + Math.random() * 0.05 + score * 3e-4,
         maxHealth: health,
         health,
         color: `hsl(${Math.random() * 60 + 300}, 100%, 60%)`
       });
     }
     function spawnEnemy(delta) {
-      const baseChance = 0.03 + score * 1e-4;
+      const baseChance = 0.02 + score * 5e-5;
       const chance = baseChance * (delta / 16.67);
       if (Math.random() < chance) {
         createEnemy();

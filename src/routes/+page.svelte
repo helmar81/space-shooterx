@@ -42,7 +42,7 @@
     y: 0,
     w: 40,
     h: 40,
-    speed: 0.35, // units per ms (scaled by delta time)
+    speed: 0.25, // units per ms (scaled by delta time)
   };
 
   let bullets: Bullet[] = [];
@@ -91,7 +91,7 @@
     bullets.push({
       x: player.x + player.w / 2,
       y: player.y,
-      speed: 0.9, // units per ms
+      speed: 0.7, // units per ms
       radius: 6,
       color: "#00ffff",
     });
@@ -105,7 +105,7 @@
       y: -size,
       w: size,
       h: size,
-      speed: 0.12 + Math.random() * 0.08 + score * 0.0006,
+      speed: 0.08 + Math.random() * 0.05 + score * 0.0003,
       maxHealth: health,
       health,
       color: `hsl(${Math.random() * 60 + 300}, 100%, 60%)`,
@@ -114,7 +114,7 @@
 
   function spawnEnemy(delta: number) {
     // delta-aware spawn chance
-    const baseChance = 0.03 + score * 0.0001;
+    const baseChance = 0.02 + score * 0.00005;
     const chance = baseChance * (delta / 16.67); // scale vs ~60fps baseline
     if (Math.random() < chance) {
       createEnemy();
@@ -649,16 +649,16 @@
   :global(body) {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     background: #4760dd;
     font-family: "Inter", sans-serif;
-    touch-action: none;
   }
 
   .game-container {
     position: relative;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
+    touch-action: none;
   }
 
   canvas {
@@ -669,7 +669,7 @@
 
   .bottom-info {
     position: absolute;
-    bottom: env(safe-area-inset-bottom, 20px);
+    bottom: calc(env(safe-area-inset-bottom, 20px) + 70px);
     left: 20px;
     right: 20px;
     display: flex;
@@ -731,7 +731,7 @@
       gap: 12px;
       left: 10px;
       right: 10px;
-      bottom: env(safe-area-inset-bottom, 15px);
+      bottom: calc(env(safe-area-inset-bottom, 15px) + 70px);
     }
 
     .controls {
