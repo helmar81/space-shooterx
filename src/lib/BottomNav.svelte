@@ -61,7 +61,7 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: #a0aabf; /* Light greyish color */
+    color: #64748b; /* Darker slate for a11y contrast ratio >= 4.5:1 */
     width: 60px;
     height: 100%;
     position: relative;
@@ -70,11 +70,11 @@
   }
 
   .nav-item:hover, .nav-item:focus {
-    color: #555;
+    color: #334155;
   }
 
   .nav-item.active {
-    color: #0088ff; /* Blue similar to screenshot */
+    color: #2563eb; /* Darker blue for a11y contrast ratio >= 4.5:1 */
   }
 
   .nav-item svg {

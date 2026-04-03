@@ -13,9 +13,7 @@
 
   <main>
     <div class="profile-card">
-      <div class="avatar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      </div>
+      <img class="avatar" src="/me.webp" alt="Developer Team Avatar" />
       <h2>Developer Team</h2>
       <a href="https://uspekhi.web.app" class="studio-link" target="_blank">Built by USPEKHI</a>
     </div>
@@ -54,6 +52,7 @@
     margin: 0;
     background: linear-gradient(90deg, #a200ff, #00ffff);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   header p {
@@ -77,18 +76,13 @@
   .avatar {
     width: 80px;
     height: 80px;
-    background: #0B0D17;
     border-radius: 50%;
     margin: 0 auto 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    object-fit: cover;
     border: 2px solid #00ffff;
-    color: #00ffff;
-  }
-  .avatar svg {
-    width: 40px;
-    height: 40px;
+    background-color: #0B0D17;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
   }
   .profile-card h2 {
     margin: 0 0 0.5rem 0;

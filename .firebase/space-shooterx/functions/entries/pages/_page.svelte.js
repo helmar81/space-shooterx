@@ -1,4 +1,4 @@
-import { ab as ssr_context, h as head, e as escape_html } from "../../chunks/index2.js";
+import { ab as ssr_context, h as head } from "../../chunks/index2.js";
 import "clsx";
 function onDestroy(fn) {
   /** @type {SSRContext} */
@@ -25,6 +25,7 @@ function _page($$renderer, $$props) {
     let bestScore = 0;
     let isGameOver = false;
     let isRunning = false;
+    let isStarterPage = true;
     let lastShootTime = 0;
     let shootCooldown = 150;
     let lastTimestamp = 0;
@@ -32,7 +33,6 @@ function _page($$renderer, $$props) {
     let isTouching = false;
     let touchTargetX = 0;
     let touchTargetY = 0;
-    let t = { builtBy: "Built by", privacyPolicy: "Privacy Policy" };
     let gameLoopId;
     function createParticles(x, y, color, count) {
       for (let i = 0; i < count; i++) {
@@ -106,6 +106,7 @@ function _page($$renderer, $$props) {
       score = 0;
       isGameOver = false;
       isRunning = false;
+      isStarterPage = true;
       lastShootTime = 0;
       lastTimestamp = 0;
       isTouching = false;
@@ -118,6 +119,7 @@ function _page($$renderer, $$props) {
     }
     function startGame() {
       isRunning = true;
+      isStarterPage = false;
     }
     function endGame() {
       isGameOver = true;
@@ -217,21 +219,25 @@ function _page($$renderer, $$props) {
       spawnEnemy(delta);
     }
     function drawBackground() {
-      ctx.fillStyle = "#0B0D17";
-      ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-      ctx.lineWidth = 1;
-      for (let i = 0; i < w; i += 50) {
-        ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, h);
-        ctx.stroke();
-      }
-      for (let i = 0; i < h; i += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, i);
-        ctx.lineTo(w, i);
-        ctx.stroke();
+      if (isStarterPage) {
+        ctx.clearRect(0, 0, w, h);
+      } else {
+        ctx.fillStyle = "#0B0D17";
+        ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+        ctx.lineWidth = 1;
+        for (let i = 0; i < w; i += 50) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i, h);
+          ctx.stroke();
+        }
+        for (let i = 0; i < h; i += 50) {
+          ctx.beginPath();
+          ctx.moveTo(0, i);
+          ctx.lineTo(w, i);
+          ctx.stroke();
+        }
       }
     }
     function drawRoundedRect(ctx2, x, y, w2, h2, r) {
@@ -310,8 +316,8 @@ function _page($$renderer, $$props) {
       ctx.fillText(`SCORE: ${score}`, 20, 40);
       ctx.fillText(`BEST: ${bestScore}`, 20, 70);
       ctx.textAlign = "center";
-      if (!isRunning && !isGameOver) {
-        ctx.fillStyle = "rgba(11, 13, 23, 0.85)";
+      if (isStarterPage) {
+        ctx.fillStyle = "rgba(11, 13, 23, 0.3)";
         ctx.fillRect(0, 0, w, h);
         const titleSize = w < 400 ? 32 : 48;
         ctx.font = `bold ${titleSize}px Inter, sans-serif`;
@@ -331,11 +337,15 @@ function _page($$renderer, $$props) {
         const instructionSize = w < 400 ? 13 : 20;
         ctx.font = `${instructionSize}px Inter, sans-serif`;
         ctx.fillText("Move: WASD / Arrows   Shoot: Space", w / 2, h / 2 + 50);
-      }
-      if (!isGameOver && !isRunning && score > 0) {
-        ctx.font = "18px Inter, sans-serif";
+      } else if (!isGameOver && !isRunning) {
+        ctx.fillStyle = "rgba(11, 13, 23, 0.6)";
+        ctx.fillRect(0, 0, w, h);
+        ctx.font = "24px Inter, sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("PAUSED", w / 2, h / 2 - 10);
+        ctx.font = "16px Inter, sans-serif";
         ctx.fillStyle = "#aaaaaa";
-        ctx.fillText("Paused (Esc to Resume)", w / 2, h / 2 + 90);
+        ctx.fillText("Esc to Resume", w / 2, h / 2 + 25);
       }
       if (isGameOver) {
         ctx.fillStyle = "rgba(11, 13, 23, 0.85)";
@@ -394,9 +404,22 @@ function _page($$renderer, $$props) {
       $$renderer3.title(($$renderer4) => {
         $$renderer4.push(`<title>Space Shooter X</title>`);
       });
-      $$renderer3.push(`<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>`);
     });
-    $$renderer2.push(`<main class="game-container svelte-1uha8ag"><canvas class="svelte-1uha8ag"></canvas> <div class="bottom-info svelte-1uha8ag"><div class="controls svelte-1uha8ag"><span class="instruction-line svelte-1uha8ag"><strong>Desktop:</strong> WASD/Arrows to Move, Space to Shoot, Esc to Pause</span> <span class="instruction-line svelte-1uha8ag"><strong>Mobile:</strong> Tap to Start, Touch &amp; Drag to Move / Shoot</span></div> <footer class="svelte-1uha8ag"><p class="svelte-1uha8ag">© ${escape_html((/* @__PURE__ */ new Date()).getFullYear())} | ${escape_html(t.builtBy)} <a href="https://uspekhi.web.app" target="_blank" rel="noopener noreferrer" class="footer-link svelte-1uha8ag"><strong>USPEKHI</strong></a> <br class="footer-break svelte-1uha8ag"/> <span class="footer-separator svelte-1uha8ag">|</span> <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" class="footer-link svelte-1uha8ag">${escape_html(t.privacyPolicy)}</a></p></footer></div></main>`);
+    $$renderer2.push(`<main class="game-container svelte-1uha8ag">`);
+    if (isStarterPage) {
+      $$renderer2.push("<!--[-->");
+      $$renderer2.push(`<div class="video-container svelte-1uha8ag"><video autoplay="" loop="" muted="" playsinline="" class="bg-video svelte-1uha8ag"><source src="/x.mp4" type="video/mp4"/></video> <div class="video-overlay svelte-1uha8ag"></div></div>`);
+    } else {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]--> <canvas class="svelte-1uha8ag"></canvas> `);
+    if (isGameOver) {
+      $$renderer2.push("<!--[-->");
+      $$renderer2.push(`<div class="action-buttons svelte-1uha8ag"><button class="action-btn share-btn svelte-1uha8ag"><svg viewBox="0 0 24 24" fill="none" class="icon svelte-1uha8ag"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> Share</button> <button class="action-btn save-btn svelte-1uha8ag"><svg viewBox="0 0 24 24" fill="none" class="icon svelte-1uha8ag"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg> Save</button></div>`);
+    } else {
+      $$renderer2.push("<!--[!-->");
+    }
+    $$renderer2.push(`<!--]--></main>`);
   });
 }
 export {

@@ -54,6 +54,7 @@
 
   let isGameOver = false;
   let isRunning = false; // false = waiting on start screen or paused
+  let isStarterPage = true;
 
   let lastShootTime = 0;
   let shootCooldown = 150;
@@ -199,6 +200,7 @@
     score = 0;
     isGameOver = false;
     isRunning = false;
+    isStarterPage = true;
     lastShootTime = 0;
     lastTimestamp = 0;
     isTouching = false;
@@ -214,6 +216,7 @@
 
   function startGame() {
     isRunning = true;
+    isStarterPage = false;
   }
 
   function endGame() {
@@ -356,22 +359,26 @@
   }
 
   function drawBackground() {
-    ctx.fillStyle = "#0B0D17";
-    ctx.fillRect(0, 0, w, h);
+    if (isStarterPage) {
+      ctx.clearRect(0, 0, w, h);
+    } else {
+      ctx.fillStyle = "#0B0D17";
+      ctx.fillRect(0, 0, w, h);
 
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-    ctx.lineWidth = 1;
-    for (let i = 0; i < w; i += 50) {
-      ctx.beginPath();
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i, h);
-      ctx.stroke();
-    }
-    for (let i = 0; i < h; i += 50) {
-      ctx.beginPath();
-      ctx.moveTo(0, i);
-      ctx.lineTo(w, i);
-      ctx.stroke();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < w; i += 50) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, h);
+        ctx.stroke();
+      }
+      for (let i = 0; i < h; i += 50) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(w, i);
+        ctx.stroke();
+      }
     }
   }
 
@@ -470,8 +477,8 @@
 
     ctx.textAlign = "center";
 
-    if (!isRunning && !isGameOver) {
-      ctx.fillStyle = "rgba(11, 13, 23, 0.85)";
+    if (isStarterPage) {
+      ctx.fillStyle = "rgba(11, 13, 23, 0.3)";
       ctx.fillRect(0, 0, w, h);
 
       const titleSize = w < 400 ? 32 : 48;
@@ -496,12 +503,17 @@
       const instructionSize = w < 400 ? 13 : 20;
       ctx.font = `${instructionSize}px Inter, sans-serif`;
       ctx.fillText("Move: WASD / Arrows   Shoot: Space", w / 2, h / 2 + 50);
-    }
+    } else if (!isGameOver && !isRunning) {
+      ctx.fillStyle = "rgba(11, 13, 23, 0.6)";
+      ctx.fillRect(0, 0, w, h);
 
-    if (!isGameOver && !isRunning && score > 0) {
-      ctx.font = "18px Inter, sans-serif";
+      ctx.font = "24px Inter, sans-serif";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("PAUSED", w / 2, h / 2 - 10);
+      
+      ctx.font = "16px Inter, sans-serif";
       ctx.fillStyle = "#aaaaaa";
-      ctx.fillText("Paused (Esc to Resume)", w / 2, h / 2 + 90);
+      ctx.fillText("Esc to Resume", w / 2, h / 2 + 25);
     }
 
     if (isGameOver) {
@@ -559,6 +571,29 @@
     gameLoopId = requestAnimationFrame(loop);
   }
 
+  function shareScore() {
+    const text = `I just scored ${score} in Space Shooter X! My best is ${bestScore}. Can you beat me?`;
+    if (navigator.share) {
+      navigator.share({
+        title: 'Space Shooter X',
+        text: text,
+      }).catch(console.error);
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Score copied to clipboard!");
+      });
+    }
+  }
+
+  function saveScreenshot() {
+    if (!canvas) return;
+    const dataUrl = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = `space-shooter-x-${score}.png`;
+    link.href = dataUrl;
+    link.click();
+  }
+
   onMount(() => {
     ctx = canvas.getContext("2d")!;
     resizeCanvas();
@@ -599,50 +634,35 @@
 </script>
 
 <svelte:head>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
   <title>Space Shooter X</title>
 </svelte:head>
 
 <main class="game-container">
+  {#if isStarterPage}
+    <div class="video-container">
+      <video autoplay loop muted playsinline class="bg-video">
+        <source src="/x.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+  {/if}
+
   <canvas bind:this={canvas}></canvas>
 
-  <div class="bottom-info">
-    <div class="controls">
-      <span class="instruction-line"
-        ><strong>Desktop:</strong> WASD/Arrows to Move, Space to Shoot, Esc to Pause</span
-      >
-      <span class="instruction-line"
-        ><strong>Mobile:</strong> Tap to Start, Touch & Drag to Move / Shoot</span
-      >
+  {#if isGameOver}
+    <div class="action-buttons">
+      <button on:click={shareScore} class="action-btn share-btn">
+        <svg viewBox="0 0 24 24" fill="none" class="icon"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Share
+      </button>
+      <button on:click={saveScreenshot} class="action-btn save-btn">
+        <svg viewBox="0 0 24 24" fill="none" class="icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Save
+      </button>
     </div>
+  {/if}
 
-    <footer>
-      <p>
-        &copy; {new Date().getFullYear()} | {t.builtBy}
-        <a
-          href="https://uspekhi.web.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer-link"
-        >
-          <strong>USPEKHI</strong>
-        </a>
-        <br class="footer-break" />
-        <span class="footer-separator"> | </span>
-        <a
-          href="/privacy-policy.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="footer-link"
-        >
-          {t.privacyPolicy}
-        </a>
-      </p>
-    </footer>
-  </div>
+  
 </main>
 
 <style>
@@ -661,95 +681,94 @@
     touch-action: none;
   }
 
+  .action-buttons {
+    position: absolute;
+    top: calc(50% + 140px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 20;
+    pointer-events: auto;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid #00ffff;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-shadow: 0 0 5px rgba(0,255,255,0.5);
+  }
+
+  .action-btn:hover {
+    background: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0,255,255,0.4);
+  }
+
+  .action-btn .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .share-btn {
+    border-color: #a200ff;
+    background: rgba(162, 0, 255, 0.1);
+    text-shadow: 0 0 5px rgba(162,0,255,0.5);
+  }
+
+  .share-btn:hover {
+    background: rgba(162, 0, 255, 0.3);
+    box-shadow: 0 0 15px rgba(162,0,255,0.4);
+  }
+
   canvas {
     display: block;
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 2;
   }
 
-  .bottom-info {
+  .video-container {
     position: absolute;
-    bottom: calc(env(safe-area-inset-bottom, 20px) + 70px);
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    pointer-events: none;
-    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
   }
 
-  .controls {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 13px;
-    line-height: 1.5;
-    text-align: left;
+  .bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05); /* Slight zoom for a cinematic look */
+    animation: fadeIn 2s ease-out;
   }
 
-  .instruction-line {
-    display: block;
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(11,13,23,0.8) 100%);
   }
 
-  footer {
-    text-align: right;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 13px;
-    line-height: 1.5;
-    pointer-events: auto;
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
-  footer p {
-    margin: 0;
-  }
-
-  .footer-break {
-    display: none;
-  }
-
-  .footer-separator {
-    display: inline;
-  }
-
-  .footer-link {
-    color: #00ffff;
-    text-decoration: none;
-    transition:
-      color 0.2s,
-      text-shadow 0.2s;
-  }
-
-  .footer-link:hover {
-    color: #ffffff;
-    text-shadow: 0 0 5px #00ffff;
-  }
-
-  @media (max-width: 768px) {
-    .bottom-info {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      left: 10px;
-      right: 10px;
-      bottom: calc(env(safe-area-inset-bottom, 15px) + 70px);
-    }
-
-    .controls {
-      text-align: center;
-      font-size: 11px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 11px;
-    }
-
-    .footer-break {
-      display: inline;
-    }
-
-    .footer-separator {
-      display: none;
-    }
-  }
+  
 </style>

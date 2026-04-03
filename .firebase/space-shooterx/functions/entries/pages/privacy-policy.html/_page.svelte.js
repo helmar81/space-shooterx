@@ -1,0 +1,19 @@
+import { h as head } from "../../../chunks/index2.js";
+function _page($$renderer) {
+  head("rwh8t3", $$renderer, ($$renderer2) => {
+    $$renderer2.title(($$renderer3) => {
+      $$renderer3.push(`<title>Privacy Policy - Space Shooter</title>`);
+    });
+  });
+  $$renderer.push(`<div class="privacy-wrapper svelte-rwh8t3"><a href="/" class="back-link svelte-rwh8t3">← Back to Game</a> <div class="container svelte-rwh8t3"><h1 class="svelte-rwh8t3">Privacy Policy</h1> <p class="svelte-rwh8t3"><strong>Last Updated:</strong> 2026-03-07</p> <h2 class="svelte-rwh8t3">1. Introduction</h2> <p class="svelte-rwh8t3">Welcome to Space Shooter ("we," "our," or "us"). We are committed to protecting your personal information and
+            your right to privacy. If you have any questions or concerns about our policy, or our practices with regards
+            to your personal information, please contact us using the information provided below.</p> <h2 class="svelte-rwh8t3">2. Data Collection</h2> <p class="svelte-rwh8t3">Space Shooter is an offline-capable browser game. We do not require you to create an account, nor do we
+            actively collect, store, or share your personal data. Your game progress and high scores are stored locally
+            on your device within your web browser.</p> <h2 class="svelte-rwh8t3">3. Third-Party Services</h2> <p class="svelte-rwh8t3">We may use third-party services (such as Google Analytics) to monitor and analyze the use of our service to
+            improve performance and user experience. These third parties have access to your browsing data only to
+            perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.</p> <h2 class="svelte-rwh8t3">4. Changes to This Privacy Policy</h2> <p class="svelte-rwh8t3">We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
+            Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p> <h2 class="svelte-rwh8t3">5. Contact Us</h2> <p class="svelte-rwh8t3">If you have questions or comments about this policy, you may reach us at:</p> <ul class="svelte-rwh8t3"><li>Email: <a href="mailto:mediatrends64@gmail.com" class="svelte-rwh8t3">mediatrends64@gmail.com</a></li> <li>Contact Form: <a href="https://uspekhi.web.app/contact" target="_blank" class="svelte-rwh8t3">https://uspekhi.web.app/contact</a></li></ul></div></div>`);
+}
+export {
+  _page as default
+};

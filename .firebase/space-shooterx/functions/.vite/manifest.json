@@ -124,7 +124,7 @@
       "_state.svelte.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.DbQ9d3se.css"
+      "_app/immutable/assets/_layout.Pz0dH8Ir.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -136,7 +136,7 @@
       "_index2.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.D_huLUKw.css"
+      "_app/immutable/assets/_page.DXIW4OID.css"
     ]
   },
   "src/routes/about/+page.svelte": {
@@ -148,7 +148,7 @@
       "_index2.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.BxggvU1r.css"
+      "_app/immutable/assets/_page.CGrqjypU.css"
     ]
   },
   "src/routes/guide/+page.svelte": {
@@ -161,6 +161,30 @@
     ],
     "css": [
       "_app/immutable/assets/_page.BAghReRJ.css"
+    ]
+  },
+  "src/routes/privacy-policy.html/+page.svelte": {
+    "file": "entries/pages/privacy-policy.html/_page.svelte.js",
+    "name": "entries/pages/privacy-policy.html/_page.svelte",
+    "src": "src/routes/privacy-policy.html/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.VzvqEYGB.css"
+    ]
+  },
+  "src/routes/privacy-policy/+page.svelte": {
+    "file": "entries/pages/privacy-policy/_page.svelte.js",
+    "name": "entries/pages/privacy-policy/_page.svelte",
+    "src": "src/routes/privacy-policy/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index2.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DwyBkCGS.css"
     ]
   },
   "src/routes/video/+page.svelte": {
