@@ -1,4 +1,4 @@
-import { h as head } from "../../../chunks/index2.js";
+import { h as head } from "../../../chunks/renderer.js";
 function _page($$renderer) {
   head("f1q66e", $$renderer, ($$renderer2) => {
     $$renderer2.title(($$renderer3) => {

@@ -106,7 +106,7 @@
       y: -size,
       w: size,
       h: size,
-      speed: 0.08 + Math.random() * 0.05 + score * 0.0003,
+      speed: 0.04 + Math.random() * 0.03 + score * 0.0001,
       maxHealth: health,
       health,
       color: `hsl(${Math.random() * 60 + 300}, 100%, 60%)`,
@@ -115,7 +115,7 @@
 
   function spawnEnemy(delta: number) {
     // delta-aware spawn chance
-    const baseChance = 0.02 + score * 0.00005;
+    const baseChance = 0.008 + score * 0.00002;
     const chance = baseChance * (delta / 16.67); // scale vs ~60fps baseline
     if (Math.random() < chance) {
       createEnemy();
@@ -444,15 +444,44 @@
   }
 
   function drawEnemies() {
+    const time = Date.now() / 150; // Used for animating alien tentacles
+
     enemies.forEach((e) => {
       ctx.shadowBlur = 15;
       ctx.shadowColor = e.color;
       ctx.fillStyle = e.color;
-      drawRoundedRect(ctx, e.x, e.y, e.w, e.h, 5);
+      
+      const legOffset = Math.sin(time + e.x) * (e.h * 0.15); // Tentacle animation
 
+      ctx.beginPath();
+      // Alien head (smooth dome)
+      ctx.arc(e.x + e.w / 2, e.y + e.h * 0.4, e.w / 2, Math.PI, 0);
+      
+      // Right boundary
+      ctx.lineTo(e.x + e.w, e.y + e.h);
+      
+      // Tentacles at the bottom
+      ctx.lineTo(e.x + e.w * 0.8, e.y + e.h * 0.8 + legOffset);
+      ctx.lineTo(e.x + e.w * 0.5, e.y + e.h - legOffset);
+      ctx.lineTo(e.x + e.w * 0.2, e.y + e.h * 0.8 + legOffset);
+      
+      // Left boundary
+      ctx.lineTo(e.x, e.y + e.h);
+      ctx.closePath();
+      ctx.fill();
+
+      // Alien Eyes (Angled, glowless internal shapes)
       ctx.fillStyle = "#0B0D17";
       ctx.shadowBlur = 0;
-      drawRoundedRect(ctx, e.x + 5, e.y + 5, e.w - 10, e.h - 10, 2);
+      ctx.beginPath();
+      // Left eye
+      ctx.ellipse(e.x + e.w * 0.3, e.y + e.h * 0.45, e.w * 0.12, e.h * 0.15, -0.4, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.beginPath();
+      // Right eye
+      ctx.ellipse(e.x + e.w * 0.7, e.y + e.h * 0.45, e.w * 0.12, e.h * 0.15, 0.4, 0, Math.PI * 2);
+      ctx.fill();
     });
     ctx.shadowBlur = 0;
   }

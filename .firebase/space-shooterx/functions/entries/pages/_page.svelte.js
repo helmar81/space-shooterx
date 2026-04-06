@@ -1,4 +1,4 @@
-import { ab as ssr_context, h as head } from "../../chunks/index2.js";
+import { aa as ssr_context, h as head } from "../../chunks/renderer.js";
 import "clsx";
 function onDestroy(fn) {
   /** @type {SSRContext} */
@@ -66,14 +66,14 @@ function _page($$renderer, $$props) {
         y: -size,
         w: size,
         h: size,
-        speed: 0.08 + Math.random() * 0.05 + score * 3e-4,
+        speed: 0.04 + Math.random() * 0.03 + score * 1e-4,
         maxHealth: health,
         health,
         color: `hsl(${Math.random() * 60 + 300}, 100%, 60%)`
       });
     }
     function spawnEnemy(delta) {
-      const baseChance = 0.02 + score * 5e-5;
+      const baseChance = 8e-3 + score * 2e-5;
       const chance = baseChance * (delta / 16.67);
       if (Math.random() < chance) {
         createEnemy();
@@ -240,20 +240,6 @@ function _page($$renderer, $$props) {
         }
       }
     }
-    function drawRoundedRect(ctx2, x, y, w2, h2, r) {
-      ctx2.beginPath();
-      ctx2.moveTo(x + r, y);
-      ctx2.lineTo(x + w2 - r, y);
-      ctx2.quadraticCurveTo(x + w2, y, x + w2, y + r);
-      ctx2.lineTo(x + w2, y + h2 - r);
-      ctx2.quadraticCurveTo(x + w2, y + h2, x + w2 - r, y + h2);
-      ctx2.lineTo(x + r, y + h2);
-      ctx2.quadraticCurveTo(x, y + h2, x, y + h2 - r);
-      ctx2.lineTo(x, y + r);
-      ctx2.quadraticCurveTo(x, y, x + r, y);
-      ctx2.closePath();
-      ctx2.fill();
-    }
     function drawPlayer() {
       if (isGameOver) return;
       ctx.shadowBlur = 15;
@@ -288,14 +274,29 @@ function _page($$renderer, $$props) {
       ctx.shadowBlur = 0;
     }
     function drawEnemies() {
+      const time = Date.now() / 150;
       enemies.forEach((e) => {
         ctx.shadowBlur = 15;
         ctx.shadowColor = e.color;
         ctx.fillStyle = e.color;
-        drawRoundedRect(ctx, e.x, e.y, e.w, e.h, 5);
+        const legOffset = Math.sin(time + e.x) * (e.h * 0.15);
+        ctx.beginPath();
+        ctx.arc(e.x + e.w / 2, e.y + e.h * 0.4, e.w / 2, Math.PI, 0);
+        ctx.lineTo(e.x + e.w, e.y + e.h);
+        ctx.lineTo(e.x + e.w * 0.8, e.y + e.h * 0.8 + legOffset);
+        ctx.lineTo(e.x + e.w * 0.5, e.y + e.h - legOffset);
+        ctx.lineTo(e.x + e.w * 0.2, e.y + e.h * 0.8 + legOffset);
+        ctx.lineTo(e.x, e.y + e.h);
+        ctx.closePath();
+        ctx.fill();
         ctx.fillStyle = "#0B0D17";
         ctx.shadowBlur = 0;
-        drawRoundedRect(ctx, e.x + 5, e.y + 5, e.w - 10, e.h - 10, 2);
+        ctx.beginPath();
+        ctx.ellipse(e.x + e.w * 0.3, e.y + e.h * 0.45, e.w * 0.12, e.h * 0.15, -0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(e.x + e.w * 0.7, e.y + e.h * 0.45, e.w * 0.12, e.h * 0.15, 0.4, 0, Math.PI * 2);
+        ctx.fill();
       });
       ctx.shadowBlur = 0;
     }

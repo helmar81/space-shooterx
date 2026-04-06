@@ -2,7 +2,9 @@ import { json, text } from "@sveltejs/kit";
 import { SvelteKitError, HttpError } from "@sveltejs/kit/internal";
 import { with_request_store } from "@sveltejs/kit/internal/server";
 import * as devalue from "devalue";
-import { t as text_decoder, b as base64_encode, c as base64_decode } from "./utils.js";
+import { t as text_decoder, c as base64_decode, b as base64_encode } from "./utils.js";
+import { e as experimental_async_required, g as get_render_context, h as hydratable_serialization_failed } from "./render-context.js";
+import "clsx";
 const SVELTE_KIT_ASSETS = "/_svelte_kit_assets";
 const ENDPOINT_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"];
 const MUTATIVE_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
@@ -442,7 +444,7 @@ function create_field_proxy(target, get_input, set_input, get_issues, path = [])
               value: {
                 enumerable: true,
                 get() {
-                  return get_value();
+                  return input_value !== void 0 ? input_value : get_value();
                 }
               }
             });
@@ -501,7 +503,7 @@ function create_field_proxy(target, get_input, set_input, get_issues, path = [])
             value: {
               enumerable: true,
               get() {
-                const value = get_value();
+                const value = input_value !== void 0 ? input_value : get_value();
                 return value != null ? String(value) : "";
               }
             }
@@ -729,15 +731,196 @@ function get_node_type(node_id) {
   const dot_parts = filename.split(".");
   return dot_parts.slice(0, -1).join(".");
 }
+function hydratable(key, fn) {
+  {
+    experimental_async_required();
+  }
+  const { hydratable: hydratable2 } = get_render_context();
+  let entry = hydratable2.lookup.get(key);
+  if (entry !== void 0) {
+    return (
+      /** @type {T} */
+      entry.value
+    );
+  }
+  const value = fn();
+  entry = encode(key, value, hydratable2.unresolved_promises);
+  hydratable2.lookup.set(key, entry);
+  return value;
+}
+function encode(key, value, unresolved) {
+  const entry = { value, serialized: "" };
+  let uid = 1;
+  entry.serialized = devalue.uneval(entry.value, (value2, uneval) => {
+    if (is_promise(value2)) {
+      const placeholder = `"${uid++}"`;
+      const p = value2.then((v) => {
+        entry.serialized = entry.serialized.replace(placeholder, `r(${uneval(v)})`);
+      }).catch(
+        (devalue_error) => hydratable_serialization_failed(
+          key,
+          serialization_stack(entry.stack, devalue_error?.stack)
+        )
+      );
+      p.catch(() => {
+      }).finally(() => unresolved?.delete(p));
+      (entry.promises ??= []).push(p);
+      return placeholder;
+    }
+  });
+  return entry;
+}
+function is_promise(value) {
+  return Object.prototype.toString.call(value) === "[object Promise]";
+}
+function serialization_stack(root_stack, uneval_stack) {
+  let out = "";
+  if (root_stack) {
+    out += root_stack + "\n";
+  }
+  if (uneval_stack) {
+    out += "Caused by:\n" + uneval_stack + "\n";
+  }
+  return out || "<missing stack trace>";
+}
 const INVALIDATED_PARAM = "x-sveltekit-invalidated";
 const TRAILING_SLASH_PARAM = "x-sveltekit-trailing-slash";
 function stringify(data, transport) {
   const encoders = Object.fromEntries(Object.entries(transport).map(([k, v]) => [k, v.encode]));
   return devalue.stringify(data, encoders);
 }
-function stringify_remote_arg(value, transport) {
+const object_proto_names = /* @__PURE__ */ Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
+function is_plain_object(thing) {
+  if (typeof thing !== "object" || thing === null) return false;
+  const proto = Object.getPrototypeOf(thing);
+  return proto === Object.prototype || proto === null || Object.getPrototypeOf(proto) === null || Object.getOwnPropertyNames(proto).sort().join("\0") === object_proto_names;
+}
+function to_sorted(value, clones) {
+  const clone = Object.getPrototypeOf(value) === null ? /* @__PURE__ */ Object.create(null) : {};
+  clones.set(value, clone);
+  Object.defineProperty(clone, remote_arg_marker, { value: true });
+  for (const key of Object.keys(value).sort()) {
+    const property = value[key];
+    Object.defineProperty(clone, key, {
+      value: clones.get(property) ?? property,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  }
+  return clone;
+}
+const remote_object = "__skrao";
+const remote_map = "__skram";
+const remote_set = "__skras";
+const remote_regex_guard = "__skrag";
+const remote_arg_marker = Symbol(remote_object);
+function create_remote_arg_reducers(transport, sort, remote_arg_clones) {
+  const remote_fns_reducers = {
+    [remote_regex_guard]: (
+      /** @type {(value: unknown) => void} */
+      (value) => {
+        if (value instanceof RegExp) {
+          throw new Error("Regular expressions are not valid remote function arguments");
+        }
+      }
+    )
+  };
+  if (sort) {
+    remote_fns_reducers[remote_map] = (value) => {
+      if (!(value instanceof Map)) {
+        return;
+      }
+      const entries = [];
+      for (const [key, val] of value) {
+        entries.push([stringify2(key), stringify2(val)]);
+      }
+      return entries.sort(([a1, a2], [b1, b2]) => {
+        if (a1 < b1) return -1;
+        if (a1 > b1) return 1;
+        if (a2 < b2) return -1;
+        if (a2 > b2) return 1;
+        return 0;
+      });
+    };
+    remote_fns_reducers[remote_set] = (value) => {
+      if (!(value instanceof Set)) {
+        return;
+      }
+      const items = [];
+      for (const item of value) {
+        items.push(stringify2(item));
+      }
+      items.sort();
+      return items;
+    };
+    remote_fns_reducers[remote_object] = (value) => {
+      if (!is_plain_object(value)) {
+        return;
+      }
+      if (Object.hasOwn(value, remote_arg_marker)) {
+        return;
+      }
+      if (remote_arg_clones.has(value)) {
+        return remote_arg_clones.get(value);
+      }
+      return to_sorted(value, remote_arg_clones);
+    };
+  }
+  const user_reducers = Object.fromEntries(
+    Object.entries(transport).map(([k, v]) => [k, v.encode])
+  );
+  const all_reducers = { ...user_reducers, ...remote_fns_reducers };
+  const stringify2 = (value) => devalue.stringify(value, all_reducers);
+  return all_reducers;
+}
+function create_remote_arg_revivers(transport) {
+  const remote_fns_revivers = {
+    /** @type {(value: unknown) => unknown} */
+    [remote_object]: (value) => value,
+    /** @type {(value: unknown) => Map<unknown, unknown>} */
+    [remote_map]: (value) => {
+      if (!Array.isArray(value)) {
+        throw new Error("Invalid data for Map reviver");
+      }
+      const map = /* @__PURE__ */ new Map();
+      for (const item of value) {
+        if (!Array.isArray(item) || item.length !== 2 || typeof item[0] !== "string" || typeof item[1] !== "string") {
+          throw new Error("Invalid data for Map reviver");
+        }
+        const [key, val] = item;
+        map.set(parse(key), parse(val));
+      }
+      return map;
+    },
+    /** @type {(value: unknown) => Set<unknown>} */
+    [remote_set]: (value) => {
+      if (!Array.isArray(value)) {
+        throw new Error("Invalid data for Set reviver");
+      }
+      const set = /* @__PURE__ */ new Set();
+      for (const item of value) {
+        if (typeof item !== "string") {
+          throw new Error("Invalid data for Set reviver");
+        }
+        set.add(parse(item));
+      }
+      return set;
+    }
+  };
+  const user_revivers = Object.fromEntries(
+    Object.entries(transport).map(([k, v]) => [k, v.decode])
+  );
+  const all_revivers = { ...user_revivers, ...remote_fns_revivers };
+  const parse = (data) => devalue.parse(data, all_revivers);
+  return all_revivers;
+}
+function stringify_remote_arg(value, transport, sort = true) {
   if (value === void 0) return "";
-  const json_string = stringify(value, transport);
+  const json_string = devalue.stringify(
+    value,
+    create_remote_arg_reducers(transport, sort, /* @__PURE__ */ new Map())
+  );
   const bytes = new TextEncoder().encode(json_string);
   return base64_encode(bytes).replaceAll("=", "").replaceAll("+", "-").replaceAll("/", "_");
 }
@@ -747,13 +930,30 @@ function parse_remote_arg(string, transport) {
     // no need to add back `=` characters, atob can handle it
     base64_decode(string.replaceAll("-", "+").replaceAll("_", "/"))
   );
-  const decoders = Object.fromEntries(Object.entries(transport).map(([k, v]) => [k, v.decode]));
-  return devalue.parse(json_string, decoders);
+  return devalue.parse(json_string, create_remote_arg_revivers(transport));
 }
 function create_remote_key(id, payload) {
   return id + "/" + payload;
 }
+function split_remote_key(key) {
+  const i = key.lastIndexOf("/");
+  if (i === -1) {
+    throw new Error(`Invalid remote key: ${key}`);
+  }
+  return {
+    id: key.slice(0, i),
+    payload: key.slice(i + 1)
+  };
+}
+function unfriendly_hydratable(key, fn) {
+  if (!hydratable) {
+    throw new Error("Remote functions require Svelte 5.44.0 or later");
+  }
+  return hydratable(key, fn);
+}
 export {
+  flatten_issues as A,
+  deep_set as B,
   ENDPOINT_METHODS as E,
   INVALIDATED_PARAM as I,
   MUTATIVE_METHODS as M,
@@ -774,16 +974,16 @@ export {
   deserialize_binary_form as l,
   method_not_allowed as m,
   negotiate as n,
-  has_prerendered_path as o,
+  split_remote_key as o,
   parse_remote_arg as p,
-  handle_fatal_error as q,
+  has_prerendered_path as q,
   redirect_response as r,
   serialize_uses as s,
-  format_server_error as t,
-  stringify_remote_arg as u,
-  create_field_proxy as v,
-  normalize_issue as w,
-  set_nested_value as x,
-  flatten_issues as y,
-  deep_set as z
+  handle_fatal_error as t,
+  format_server_error as u,
+  stringify_remote_arg as v,
+  unfriendly_hydratable as w,
+  create_field_proxy as x,
+  normalize_issue as y,
+  set_nested_value as z
 };

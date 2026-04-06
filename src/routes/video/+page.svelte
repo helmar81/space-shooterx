@@ -14,7 +14,7 @@
   <main>
     <div class="video-container">
       <iframe 
-        src="https://www.youtube.com/embed/csbmFJe4hSI" 
+        src="https://www.youtube.com/embed/JGQ1BBUVN9U" 
         title="Space Shooter Gameplay Video" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 

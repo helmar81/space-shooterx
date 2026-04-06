@@ -28,8 +28,9 @@ const options = {
   root,
   service_worker: true,
   service_worker_options: void 0,
+  server_error_boundaries: false,
   templates: {
-    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\n<html lang="en">\n\n<head>\n\n	<meta charset="utf-8" />\n	<meta name="viewport" content="width=device-width, initial-scale=1" />\n	<link rel="manifest" href="/manifest.json" />\n	<meta name="theme-color" content="#0B0D17" />\n	<meta name="description" content="A futuristic space shooter game built with Svelte." />\n	<meta name="author" content="Helmar Baechle" />\n\n	<!-- Open Graph -->\n	<meta property="og:title" content="Space Shooter" />\n	<meta property="og:description" content="A futuristic space shooter game built with Svelte." />\n	<meta property="og:type" content="website" />\n	<meta property="og:url" content="https://space-shooterx.web.app/" />\n	<meta property="og:image" content="https://space-shooterx.web.app/icon-192.png" />\n	<meta property="og:image:width" content="192" />\n	<meta property="og:image:height" content="192" />\n\n	<!-- Twitter -->\n	<meta name="twitter:card" content="summary" />\n	<meta name="twitter:title" content="Space Shooter" />\n	<meta name="twitter:description" content="A futuristic space shooter game built with Svelte." />\n	<meta name="twitter:image" content="https://space-shooterx.web.app/icon-192.png" />\n\n	<!-- Google Fonts Optimized -->\n	<link rel="preconnect" href="https://fonts.googleapis.com">\n	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">\n\n	' + head + `
+    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\n<html lang="en">\n\n<head>\n\n	<meta charset="utf-8" />\n	<meta name="viewport" content="width=device-width, initial-scale=1" />\n	<link rel="manifest" href="/manifest.json" />\n	<meta name="theme-color" content="#0B0D17" />\n	<meta name="description" content="Save the galaxy from an alien invasion" />\n	<meta name="author" content="Helmar Baechle" />\n\n	<!-- Open Graph -->\n	<meta property="og:title" content="Space Shooter" />\n	<meta property="og:description" content="Save the galaxy from an alien invasion." />\n	<meta property="og:type" content="website" />\n	<meta property="og:url" content="https://space-shooterx.web.app/" />\n	<meta property="og:image" content="https://space-shooterx.web.app/icon-192.png" />\n	<meta property="og:image:width" content="192" />\n	<meta property="og:image:height" content="192" />\n\n	<!-- Twitter -->\n	<meta name="twitter:card" content="summary" />\n	<meta name="twitter:title" content="Space Shooter" />\n	<meta name="twitter:description" content="Save the galaxy from an alien invasion." />\n	<meta name="twitter:image" content="https://space-shooterx.web.app/icon-192.png" />\n\n	<!-- Google Fonts Optimized -->\n	<link rel="preconnect" href="https://fonts.googleapis.com">\n	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">\n\n	' + head + `
 </head>
 
 <body data-sveltekit-preload-data="hover">
@@ -147,7 +148,7 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "1bbkyur"
+  version_hash: "1ywa2v0"
 };
 async function get_hooks() {
   let handle;
