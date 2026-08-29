@@ -1,0 +1,111 @@
+﻿
+> svelte@0.0.1 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding ssr environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 205 modules transformed.
+rendering chunks...
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 170 modules transformed.
+rendering chunks...
+computing gzip size...
+[2m.svelte-kit/output/client/[22m[32m_app/version.json                       [39m[1m[2m 0.03 kB[22m[1m[22m[2m Γöé gzip:  0.05 kB[22m
+[2m.svelte-kit/output/client/[22m[32m.vite/manifest.json                     [39m[1m[2m 6.30 kB[22m[1m[22m[2m Γöé gzip:  0.93 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/5.DwyBkCGS.css    [39m[1m[2m 0.59 kB[22m[1m[22m[2m Γöé gzip:  0.33 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/6.VzvqEYGB.css    [39m[1m[2m 0.59 kB[22m[1m[22m[2m Γöé gzip:  0.33 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/0.Pz0dH8Ir.css    [39m[1m[2m 0.99 kB[22m[1m[22m[2m Γöé gzip:  0.48 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/7.CT2u-whn.css    [39m[1m[2m 1.02 kB[22m[1m[22m[2m Γöé gzip:  0.48 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/4.BAghReRJ.css    [39m[1m[2m 1.26 kB[22m[1m[22m[2m Γöé gzip:  0.56 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/2.DXIW4OID.css    [39m[1m[2m 1.51 kB[22m[1m[22m[2m Γöé gzip:  0.65 kB[22m
+[2m.svelte-kit/output/client/[22m[35m_app/immutable/assets/3.CGrqjypU.css    [39m[1m[2m 1.67 kB[22m[1m[22m[2m Γöé gzip:  0.62 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/entry/start.vUouzYZs.js  [39m[1m[2m 0.08 kB[22m[1m[22m[2m Γöé gzip:  0.09 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/DYOJvpX7.js       [39m[1m[2m 0.37 kB[22m[1m[22m[2m Γöé gzip:  0.27 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CKfnzDAJ.js       [39m[1m[2m 0.39 kB[22m[1m[22m[2m Γöé gzip:  0.29 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/Dhcll1sq.js       [39m[1m[2m 0.51 kB[22m[1m[22m[2m Γöé gzip:  0.33 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/1.BUkBfkD4.js      [39m[1m[2m 0.51 kB[22m[1m[22m[2m Γöé gzip:  0.33 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CY5bn27k.js       [39m[1m[2m 0.63 kB[22m[1m[22m[2m Γöé gzip:  0.39 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/xk9hqTOc.js       [39m[1m[2m 0.63 kB[22m[1m[22m[2m Γöé gzip:  0.39 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CX1Gm3An.js       [39m[1m[2m 0.71 kB[22m[1m[22m[2m Γöé gzip:  0.45 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/7.BEkrr27V.js      [39m[1m[2m 1.00 kB[22m[1m[22m[2m Γöé gzip:  0.55 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/3QSRoAIy.js       [39m[1m[2m 1.23 kB[22m[1m[22m[2m Γöé gzip:  0.70 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CEEVIZ23.js       [39m[1m[2m 1.28 kB[22m[1m[22m[2m Γöé gzip:  0.76 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/Bb0B6QM0.js       [39m[1m[2m 1.49 kB[22m[1m[22m[2m Γöé gzip:  0.66 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/3.5VN9EziN.js      [39m[1m[2m 1.55 kB[22m[1m[22m[2m Γöé gzip:  0.74 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/5.CqKa4x6z.js      [39m[1m[2m 2.47 kB[22m[1m[22m[2m Γöé gzip:  1.09 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/6.CGrIkf03.js      [39m[1m[2m 2.47 kB[22m[1m[22m[2m Γöé gzip:  1.09 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/4.DGIp0HAH.js      [39m[1m[2m 2.57 kB[22m[1m[22m[2m Γöé gzip:  0.97 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/0.CVCyEKg7.js      [39m[1m[2m 3.49 kB[22m[1m[22m[2m Γöé gzip:  1.53 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CNrh6GSa.js       [39m[1m[2m 5.22 kB[22m[1m[22m[2m Γöé gzip:  2.36 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/entry/app.BYYfrUlP.js    [39m[1m[2m 7.52 kB[22m[1m[22m[2m Γöé gzip:  3.38 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/nodes/2.DXPvLxLe.js      [39m[1m[2m 9.18 kB[22m[1m[22m[2m Γöé gzip:  3.62 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/CUSsPt6d.js       [39m[1m[2m21.86 kB[22m[1m[22m[2m Γöé gzip:  8.64 kB[22m
+[2m.svelte-kit/output/client/[22m[36m_app/immutable/chunks/BVrJz_re.js       [39m[1m[2m26.10 kB[22m[1m[22m[2m Γöé gzip: 10.23 kB[22m
+[32mΓ£ô built in 1.50s[39m
+node.exe : 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C
+:\Users\promp\AppData\Roa
+ming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo       
+       : NotSpecified:   
+  (:String) [], Remote   
+ Exception
+    + FullyQualifiedErro 
+   rId : NativeCommandE  
+  rror
+ 
+node:internal/event_targe
+t:1101
+  process.nextTick(() => 
+{ throw err; });
+                         
+  ^
+Error: The following 
+routes were marked as 
+prerenderable, but were 
+not prerendered because 
+they were not found 
+while crawling your app:
+  - /privacy-policy
+
+See the 
+`handleUnseenRoutes` 
+option in https://svelte.
+dev/docs/kit/configuratio
+n#prerender for more 
+info.
+To suppress or handle 
+this error, implement 
+`handleUnseenRoutes` in h
+ttps://svelte.dev/docs/ki
+t/configuration#prerender
+    at file:///C:/Users/p
+romp/Documents/space-shoo
+terx/node_modules/@svelte
+js/kit/src/core/config/op
+tions.js:264:13
+    at file:///C:/Users/p
+romp/Documents/space-shoo
+terx/node_modules/@svelte
+js/kit/src/core/postbuild
+/prerender.js:75:25
+    at prerender (file://
+/C:/Users/promp/Documents
+/space-shooterx/node_modu
+les/@sveltejs/kit/src/cor
+e/postbuild/prerender.js:
+592:3)
+    at async 
+MessagePort.<anonymous> (
+file:///C:/Users/promp/Do
+cuments/space-shooterx/no
+de_modules/@sveltejs/kit/
+src/utils/fork.js:23:16)
+
+Node.js v22.20.0

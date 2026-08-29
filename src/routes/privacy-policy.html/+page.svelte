@@ -6,7 +6,7 @@
     <a href="/" class="back-link">&larr; Back to Game</a>
     <div class="container">
         <h1>Privacy Policy</h1>
-        <p><strong>Last Updated:</strong> 2026-03-07</p>
+        <p><strong>Last Updated:</strong> 2026-08-29</p>
 
         <h2>1. Introduction</h2>
         <p>Welcome to Space Shooter ("we," "our," or "us"). We are committed to protecting your personal information and

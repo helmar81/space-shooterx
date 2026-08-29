@@ -28,7 +28,9 @@
 	<!-- Google Fonts Optimized -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" media="print" onload="this.media='all'">
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"></noscript>
 
 	%sveltekit.head%
 </head>
@@ -62,7 +64,7 @@
 					.catch((err) => console.error('Service Worker registration failed:', err));
 			}
 
-			// Delayed GTAG to prevent render-blocking
+			// Delayed GTAG to prevent render-blocking and avoid enormous payload on initial render
 			setTimeout(function() {
 				var script = document.createElement('script');
 				script.src = "https://www.googletagmanager.com/gtag/js?id=G-1HG6TMFN04";
@@ -73,7 +75,7 @@
 				function gtag() { dataLayer.push(arguments); }
 				gtag('js', new Date());
 				gtag('config', 'G-1HG6TMFN04');
-			}, 100);
+			}, 3500);
 		});
 	</script>
 	<div style="display: contents">%sveltekit.body%</div>

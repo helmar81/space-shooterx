@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.web.space_shooterx.twa",
+    "sha256_cert_fingerprints": ["08:43:05:55:F4:98:F0:D6:19:DE:24:BE:31:B2:3F:29:31:E8:AE:F5:15:61:62:3F:06:92:6B:DB:3D:6C:75:11"]
+  }
+}]
